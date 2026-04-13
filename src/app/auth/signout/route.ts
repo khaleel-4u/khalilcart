@@ -1,8 +1,9 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export default async function SignOutRoute() {
-  const supabase = await createClient();
+export async function POST() {
+  const supabase = createRouteHandlerClient({ cookies });
   await supabase.auth.signOut();
-  redirect('/login');
+
+  return new Response("Signed out", { status: 200 });
 }
